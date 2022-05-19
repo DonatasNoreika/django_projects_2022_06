@@ -9,14 +9,10 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 # Create your views here.
-class ProjectListView(generic.ListView):
-    model = Project
-    template_name = 'projects.html'
-    context_object_name = 'projects'
-
-
 @csrf_protect
 def register(request):
     if request.method == "POST":
@@ -44,3 +40,18 @@ def register(request):
             messages.error(request, 'Slaptažodžiai nesutampa!')
             return redirect('register')
     return render(request, 'registration/register.html')
+
+
+class ProjectListView(generic.ListView):
+    model = Project
+    template_name = 'projects.html'
+    context_object_name = 'projects'
+
+
+class UserProjectListView(generic.ListView, LoginRequiredMixin):
+    model = Project
+    template_name = 'projects.html'
+    context_object_name = 'projects'
+
+    def get_queryset(self):
+        return Project.objects.filter(manager=self.request.user)
