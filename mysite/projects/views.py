@@ -104,3 +104,16 @@ class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteV
     def test_func(self):
         project = self.get_object()
         return self.request.user == project.manager
+
+
+class JobCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Job
+    fields = ['title', 'info']
+    template_name = 'job_form.html'
+
+    def get_success_url(self):
+        return reverse('project', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        form.instance.project = Project.objects.get(pk=self.kwargs['pk'])
+        return super().form_valid(form)

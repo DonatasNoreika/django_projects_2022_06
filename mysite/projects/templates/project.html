@@ -8,10 +8,17 @@
 <p>Name: <strong>{{ project.end_date }}</strong></p>
 <p>Name: <strong>{{ project.client }}</strong></p>
 <p>Name: <strong>{{ project.manager }}</strong></p>
-
 <div>
     <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'project_update' project.id %}">Edit</a>
     <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'project_delete' project.id %}">Ištrinti</a>
 </div>
+<hr>
+<h4>Jobs:</h4>
+{% for job in project.jobs.all %}
+<ul>
+    <li>{{ job.title }} ({{ job.info }})</li>
+</ul>
+{% endfor %}
+<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'new_job' project.id %}">Add Job</a>
 <hr>
 {% endblock %}
