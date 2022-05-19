@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+{% if projects %}
+{% for project in projects %}
+<p>Name: <strong>{{ project.name }}</strong></p>
+<p>Name: <strong>{{ project.start_date }}</strong></p>
+<p>Name: <strong>{{ project.end_date }}</strong></p>
+<p>Name: <strong>{{ project.client }}</strong></p>
+<p>Name: <strong>{{ project.manager }}</strong></p>
+<hr>
+{% endfor %}
+{% else %}
+<p>No projects</p>
+{% endif %}
+{% endblock %}
