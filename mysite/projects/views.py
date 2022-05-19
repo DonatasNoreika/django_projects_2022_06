@@ -48,6 +48,12 @@ class ProjectListView(generic.ListView):
     context_object_name = 'projects'
 
 
+class ProjectDetailView(generic.DetailView):
+    model = Project
+    template_name = 'project.html'
+    context_object_name = 'project'
+
+
 class UserProjectListView(generic.ListView, LoginRequiredMixin):
     model = Project
     template_name = 'projects.html'
