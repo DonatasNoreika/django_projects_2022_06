@@ -8,5 +8,9 @@
 <p>Name: <strong>{{ project.end_date }}</strong></p>
 <p>Name: <strong>{{ project.client }}</strong></p>
 <p>Name: <strong>{{ project.manager }}</strong></p>
+
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'project_update' project.id %}">Edit</a>
+</div>
 <hr>
 {% endblock %}
