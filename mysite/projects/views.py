@@ -63,6 +63,19 @@ class UserProjectListView(generic.ListView, LoginRequiredMixin):
         return Project.objects.filter(manager=self.request.user)
 
 
+class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Project
+    fields = ['name', 'start_date', 'end_date', 'client']
+    template_name = 'project_form.html'
+
+    def get_success_url(self):
+        return reverse('user_projects')
+
+    def form_valid(self, form):
+        form.instance.manager = self.request.user
+        return super().form_valid(form)
+
+
 class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Project
     fields = ['name', 'start_date', 'end_date', 'client']
@@ -74,6 +87,19 @@ class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateV
     def form_valid(self, form):
         form.instance.manager = self.request.user
         return super().form_valid(form)
+
+    def test_func(self):
+        project = self.get_object()
+        return self.request.user == project.manager
+
+
+class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Project
+    template_name = 'project_delete.html'
+    context_object_name = 'project'
+
+    def get_success_url(self):
+        return reverse('user_projects')
 
     def test_func(self):
         project = self.get_object()
